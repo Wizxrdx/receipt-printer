@@ -11,11 +11,11 @@ PRINT_WIDTH = 48
 LETTER_HEIGHT_RATIO = 20
 LETTER_WIDTH_RATIO = 1.5
 
-def generate_font(size):
+def generate_font(size, underline):
     return win32ui.CreateFont({
     "name": "Lucida Console",
     "height": int(LETTER_HEIGHT_RATIO*(size/100)),
-    # "underline": True,
+    "underline": underline,
 })
 
 def process_text(text, size):
@@ -33,6 +33,7 @@ def process_text(text, size):
     return arr
 
 text = ["09277803004","Carlyn L."]
+underline = [True, False]
 text_size = 280
 
 p = win32ui.CreateDC()
@@ -40,8 +41,6 @@ printer_name = win32print.GetDefaultPrinter()
 p.CreatePrinterDC(printer_name)
 
 p.SetMapMode(win32con.MM_TEXT)
-font = generate_font(text_size)
-p.SelectObject(font)
 
 print('Printer using: {2}\nNumber of Lines: {0}\nPrint Content: {1}'.format(
     str(len(text)),
@@ -55,6 +54,7 @@ p.StartPage()
 text = process_text(text, text_size)
 
 for line in range(len(text)):
+    p.SelectObject(generate_font(text_size, underline[line]))
     for i in range(len(text[line])):
         p.TextOut(0,i*int(LETTER_HEIGHT_RATIO*(text_size/100)),text[line][i])
     p.EndPage()
