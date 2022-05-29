@@ -1,7 +1,6 @@
 import os, sys
-from win32 import win32print
-import win32con
-import win32ui
+
+import win32gui, win32print, win32ui, win32con
 
 PRINT_WIDTH = 48
 #
@@ -36,11 +35,14 @@ text = ["09277803004","Carlyn L."]
 underline = [True, False]
 text_size = 280
 
-p = win32ui.CreateDC()
 printer_name = win32print.GetDefaultPrinter()
-p.CreatePrinterDC(printer_name)
+hprinter = win32print.OpenPrinter(printer_name)
+devmode = win32print.GetPrinter(hprinter, 8)["pDevMode"]
 
-p.SetMapMode(win32con.MM_TEXT)
+hdc = win32gui.CreateDC("WINSPOOL", printer_name, devmode)
+dc = win32ui.CreateDCFromHandle(hdc)
+
+dc.SetMapMode(win32con.MM_TEXT)
 
 print('Printer using: {2}\nNumber of Lines: {0}\nPrint Content: {1}'.format(
     str(len(text)),
@@ -48,15 +50,15 @@ print('Printer using: {2}\nNumber of Lines: {0}\nPrint Content: {1}'.format(
     printer_name
     ))
 
-p.StartDoc('test doc')
-p.StartPage()
+dc.StartDoc('test doc')
+dc.StartPage()
     
 text = process_text(text, text_size)
 
 for line in range(len(text)):
-    p.SelectObject(generate_font(text_size, underline[line]))
+    dc.SelectObject(generate_font (text_size, underline[line]))
     for i in range(len(text[line])):
-        p.TextOut(0,i*int(LETTER_HEIGHT_RATIO*(text_size/100)),text[line][i])
-    p.EndPage()
+        dc.TextOut(0,i*int(LETTER_HEIGHT_RATIO*(text_size/100)),text[line][i])
+    dc.EndPage()
     
-p.EndDoc()
+dc.EndDoc()
