@@ -7,10 +7,10 @@ LONG_DESCRIPTION = 'My first Python package with a slightly longer description'
 # Setting up
 setup(
        # the name must match the folder name 'verysimplemodule'
-        name="verysimplemodule", 
+        name="receipt-printer", 
         version=VERSION,
-        author="Jason Dsouza",
-        author_email="<youremail@email.com>",
+        author="Wizxrdx",
+        author_email="thecoolwizard420@gmail.com",
         description=DESCRIPTION,
         long_description=LONG_DESCRIPTION,
         packages=find_packages(),
@@ -21,7 +21,6 @@ setup(
         classifiers= [
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Education",
-            "Programming Language :: Python :: 2",
             "Programming Language :: Python :: 3",
             "Operating System :: MacOS :: MacOS X",
             "Operating System :: Microsoft :: Windows",
