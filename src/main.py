@@ -1,14 +1,6 @@
 import os, sys
-
 import win32gui, win32print, win32ui, win32con
 
-PRINT_WIDTH = 48
-#
-# X:Y
-# 20:1.5
-#
-LETTER_HEIGHT_RATIO = 20
-LETTER_WIDTH_RATIO = 1.5
 
 def generate_font(size, underline):
     return win32ui.CreateFont({
